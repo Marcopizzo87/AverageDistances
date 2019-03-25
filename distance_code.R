@@ -27,14 +27,14 @@ library(broom)
 
 ####  SCRIPT ----
 
-# Set WD automatically to where the R scrip is
+## Set WD automatically to where the R scrip is
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
-# Check the wd
+## Check the wd
 getwd()
 
 
-# Load data and store them as tibble ----
+## Load data and store them as tibble ----
 #rm(list=ls())
 
 df.vil <- dplyr::tbl_df(readRDS("./data/village_data.rds"))
@@ -42,10 +42,32 @@ class(df.vil)
 df.liv <- dplyr::tbl_df(readRDS("./data/livelihood_data.rds"))
 class(df.liv)
 
+## SUBSET FOR CAMEROON
+
+# df.vil <- subset(df.vil, LOCALITY_6 == "CAM")
+# df.liv <- subset(df.liv, COUNTRY == "CAM") 
+## Check which villages don't have the respective livelihood data and excludes these from the analysis
+
+# df.vil$PK %in% df.liv$FK # full list of included and excluded
+
+df.vil$PK[!df.vil$PK %in% df.liv$FK] # villages not included
+
+df.vil_red <- df.vil %>%
+              .[df.vil$PK %in% df.liv$FK, ] %>%  # villages included
+              select (.,PK,Longitude,Latitude) 
+              
+df.vil_red <- df.vil_red %>% rename(Longitude.vil = Longitude, Latitude.vil = Latitude)
+
+## Merge using the coordinates the two points we want to check the distance from
+
+df.liv_mer <- merge(df.liv,df.vil_red, by.x = "FK", by.y = "PK")
 
 
+## Get the distance from the points
 
+library(raster)
 
+df.liv_mer <- mutate(dist = pointDistance(c(Lon)))
 
 # Inspect data ----
 View(head(LPIdata_Feb2016))

@@ -6,7 +6,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 
 df.vil = read.csv("./data/mfr_village_post13_all.csv", stringsAsFactors = F)
-df.liv = read.csv("./data/mfr_livelihood_post13_all.csv", stringsAsFactors = F)
+df.liv = read.csv("./data/mfr_livelihood_post13_all2.csv", stringsAsFactors = F)
 
 ### MANIPULATE THE CSV AND TRANSFORM IT INTO A .RDS
 
