@@ -6,7 +6,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 
 df.vil = read.csv("./data/mfr_village_post13_all.csv", stringsAsFactors = F)
-df.liv = read.csv("./data/mfr_livelihood_post13_all2.csv", stringsAsFactors = F)
+df.liv = read.csv("./data/mfr_livelihood_post13_all.csv", stringsAsFactors = F)
 
 ### MANIPULATE THE CSV AND TRANSFORM IT INTO A .RDS
 
@@ -42,7 +42,7 @@ df.liv$Latitude <- as.numeric(df.liv$Latitude)
 df.liv$Longitude <- as.numeric(df.liv$Longitude)
 
 
-livelihood_data <-  subset(df.liv[c(1:1000),], select=-c(wkt_geom,delete)) ## in case you want to subset your dataset df[c(1:1000),]
+#livelihood_data <-  subset(df.liv[c(1:1000),], select=-c(wkt_geom,delete)) ## in case you want to subset your dataset df[c(1:1000),]
 livelihood_data <-  subset(df.liv, select=-c(wkt_geom,delete)) ## in case you want to subset your dataset df[c(1:1000),]
 saveRDS(livelihood_data, "./data/livelihood_data.rds")
 
